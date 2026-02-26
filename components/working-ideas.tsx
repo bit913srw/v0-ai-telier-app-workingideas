@@ -4,6 +4,7 @@ import { useState, useCallback } from "react"
 import { ArrowLeft, Plus } from "lucide-react"
 import { NoteCard } from "@/components/note-card"
 import { NoteEditor } from "@/components/note-editor"
+import { AiMuse } from "@/components/ai-muse"
 
 interface Note {
   id: string
@@ -65,6 +66,16 @@ export function WorkingIdeas() {
     setActiveView("editor")
   }, [])
 
+  const handleAddMuseIdea = useCallback((idea: string) => {
+    const newNote: Note = {
+      id: Date.now().toString(),
+      title: "AI Muse Idea",
+      content: idea,
+      createdAt: new Date(),
+    }
+    setNotes((prev) => [newNote, ...prev])
+  }, [])
+
   const handleSave = useCallback(
     (title: string, content: string) => {
       if (editingNote) {
@@ -115,9 +126,9 @@ export function WorkingIdeas() {
           <button
             onClick={handleNewNote}
             className="flex items-center gap-1 text-primary font-sans text-xs uppercase tracking-[0.2em] hover:opacity-70 transition-opacity"
-            aria-label="Create new note"
+            aria-label="Add a new note"
           >
-            <span>New Note</span>
+            <span>Add</span>
             <Plus className="w-3.5 h-3.5" strokeWidth={1.5} />
           </button>
         </div>
@@ -133,6 +144,21 @@ export function WorkingIdeas() {
       {/* Notes list */}
       <main className="flex-1 px-5 pb-8 pt-2">
         <div className="max-w-2xl mx-auto flex flex-col gap-3.5">
+          {/* Blank new note card */}
+          <button
+            onClick={handleNewNote}
+            className="group w-full text-left bg-card rounded-sm border border-dashed border-primary/25 hover:border-primary/50 transition-all duration-300 flex overflow-hidden"
+            aria-label="Start a new idea"
+          >
+            <div className="w-1 bg-primary/20 shrink-0 group-hover:bg-primary/40 transition-all duration-300" />
+            <div className="flex-1 px-5 py-5">
+              <p className="font-sans text-base italic text-muted-foreground/50">
+                {"Start a new idea..."}
+              </p>
+            </div>
+          </button>
+
+          {/* User notes */}
           {notes.map((note) => (
             <NoteCard
               key={note.id}
@@ -142,15 +168,20 @@ export function WorkingIdeas() {
           ))}
 
           {notes.length === 0 && (
-            <div className="text-center py-20">
+            <div className="text-center py-16">
               <p className="font-serif text-xl text-muted-foreground italic">
                 {"No ideas yet"}
               </p>
               <p className="font-sans text-sm text-muted-foreground/60 mt-2">
-                {"Tap New Note to begin"}
+                {"Tap the card above to begin"}
               </p>
             </div>
           )}
+
+          {/* AI Muse section */}
+          <div className="mt-6">
+            <AiMuse onAddToNotes={handleAddMuseIdea} />
+          </div>
         </div>
       </main>
     </div>

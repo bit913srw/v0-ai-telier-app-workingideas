@@ -141,6 +141,13 @@ export function WorkingIdeas() {
         </div>
       </header>
 
+      {/* AI Muse section at top */}
+      <section className="px-5 pb-4">
+        <div className="max-w-3xl mx-auto">
+          <AiMuse onAddToNotes={handleAddMuseIdea} />
+        </div>
+      </section>
+
       {/* Notes list */}
       <main className="flex-1 px-5 pb-8 pt-2">
         <div className="max-w-2xl mx-auto flex flex-col gap-3.5">
@@ -177,11 +184,6 @@ export function WorkingIdeas() {
               </p>
             </div>
           )}
-
-          {/* AI Muse section */}
-          <div className="mt-6">
-            <AiMuse onAddToNotes={handleAddMuseIdea} />
-          </div>
         </div>
       </main>
     </div>

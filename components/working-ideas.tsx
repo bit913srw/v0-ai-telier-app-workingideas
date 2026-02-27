@@ -1,9 +1,10 @@
 "use client"
 
 import { useState, useCallback } from "react"
-import { ArrowLeft, Plus } from "lucide-react"
+import { ArrowLeft } from "lucide-react"
 import { NoteCard } from "@/components/note-card"
 import { NoteEditor } from "@/components/note-editor"
+import { NoteViewer } from "@/components/note-viewer"
 import { AiMuse } from "@/components/ai-muse"
 
 interface Note {
@@ -53,18 +54,30 @@ const SAMPLE_NOTES: Note[] = [
 
 export function WorkingIdeas() {
   const [notes, setNotes] = useState<Note[]>(SAMPLE_NOTES)
-  const [activeView, setActiveView] = useState<"list" | "editor">("list")
-  const [editingNote, setEditingNote] = useState<Note | null>(null)
+  const [activeView, setActiveView] = useState<"list" | "viewer" | "editor">("list")
+  const [selectedNote, setSelectedNote] = useState<Note | null>(null)
 
   const handleNewNote = useCallback(() => {
-    setEditingNote(null)
+    setSelectedNote(null)
     setActiveView("editor")
   }, [])
 
   const handleOpenNote = useCallback((note: Note) => {
-    setEditingNote(note)
+    setSelectedNote(note)
+    setActiveView("viewer")
+  }, [])
+
+  const handleEditNote = useCallback(() => {
     setActiveView("editor")
   }, [])
+
+  const handleDeleteNote = useCallback(() => {
+    if (selectedNote) {
+      setNotes((prev) => prev.filter((n) => n.id !== selectedNote.id))
+      setSelectedNote(null)
+      setActiveView("list")
+    }
+  }, [selectedNote])
 
   const handleAddMuseIdea = useCallback((idea: string) => {
     const newNote: Note = {
@@ -78,10 +91,10 @@ export function WorkingIdeas() {
 
   const handleSave = useCallback(
     (title: string, content: string) => {
-      if (editingNote) {
+      if (selectedNote) {
         setNotes((prev) =>
           prev.map((n) =>
-            n.id === editingNote.id ? { ...n, title, content } : n
+            n.id === selectedNote.id ? { ...n, title, content } : n
           )
         )
       } else {
@@ -94,19 +107,30 @@ export function WorkingIdeas() {
         setNotes((prev) => [newNote, ...prev])
       }
       setActiveView("list")
-      setEditingNote(null)
+      setSelectedNote(null)
     },
-    [editingNote]
+    [selectedNote]
   )
 
   const handleBack = useCallback(() => {
     setActiveView("list")
-    setEditingNote(null)
+    setSelectedNote(null)
   }, [])
+
+  if (activeView === "viewer" && selectedNote) {
+    return (
+      <NoteViewer
+        note={selectedNote}
+        onEdit={handleEditNote}
+        onDelete={handleDeleteNote}
+        onBack={handleBack}
+      />
+    )
+  }
 
   if (activeView === "editor") {
     return (
-      <NoteEditor note={editingNote} onSave={handleSave} onBack={handleBack} />
+      <NoteEditor note={selectedNote} onSave={handleSave} onBack={handleBack} />
     )
   }
 
@@ -114,22 +138,13 @@ export function WorkingIdeas() {
     <div className="min-h-dvh flex flex-col bg-background">
       {/* Header */}
       <header className="px-5 py-5 flex flex-col gap-3">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center">
           <button
             className="flex items-center gap-1.5 text-primary font-sans text-xs uppercase tracking-[0.2em] hover:opacity-70 transition-opacity"
             aria-label="Go back to tools"
           >
             <ArrowLeft className="w-3.5 h-3.5" strokeWidth={1.5} />
             <span>Tools</span>
-          </button>
-
-          <button
-            onClick={handleNewNote}
-            className="flex items-center gap-1 text-primary font-sans text-xs uppercase tracking-[0.2em] hover:opacity-70 transition-opacity"
-            aria-label="Add a new note"
-          >
-            <span>Add</span>
-            <Plus className="w-3.5 h-3.5" strokeWidth={1.5} />
           </button>
         </div>
 
@@ -140,6 +155,18 @@ export function WorkingIdeas() {
           <div className="w-24 h-px bg-primary mx-auto mt-3" />
         </div>
       </header>
+
+      {/* AI Muse section at top */}
+      <section className="px-5 pb-2">
+        <div className="max-w-3xl mx-auto">
+          <AiMuse onAddToNotes={handleAddMuseIdea} />
+        </div>
+      </section>
+
+      {/* Divider between AI Muse and Notes */}
+      <div className="px-5">
+        <div className="max-w-2xl mx-auto h-px bg-primary/40" />
+      </div>
 
       {/* Notes list */}
       <main className="flex-1 px-5 pb-8 pt-2">
@@ -177,11 +204,6 @@ export function WorkingIdeas() {
               </p>
             </div>
           )}
-
-          {/* AI Muse section */}
-          <div className="mt-6">
-            <AiMuse onAddToNotes={handleAddMuseIdea} />
-          </div>
         </div>
       </main>
     </div>

@@ -63,7 +63,7 @@ export function AiMuse({ onAddToNotes }: AiMuseProps) {
   }, [])
 
   return (
-    <section className="flex flex-col gap-4">
+    <section className="flex flex-col gap-3">
       {/* Section header */}
       <div className="flex flex-col gap-2">
         <div className="h-px bg-primary/40" />
@@ -72,17 +72,18 @@ export function AiMuse({ onAddToNotes }: AiMuseProps) {
         </h2>
       </div>
 
-      {/* Ideas grid */}
+      {/* Ideas horizontal carousel */}
       <div
-        className={`grid grid-cols-2 md:grid-cols-3 gap-3 transition-opacity duration-300 ${
+        className={`flex gap-3 overflow-x-auto pb-2 transition-opacity duration-300 ${
           isRefreshing ? "opacity-0" : "opacity-100"
         }`}
+        style={{ scrollbarWidth: "none", msOverflowStyle: "none", WebkitOverflowScrolling: "touch" }}
       >
-        {ideas.map((idea, index) => (
-          <div key={`${poolIndex}-${index}`} className="flex flex-col">
+        {ideas.slice(0, 6).map((idea, index) => (
+          <div key={`${poolIndex}-${index}`} className="flex flex-col shrink-0 w-[140px]">
             <button
               onClick={() => handleCardClick(index)}
-              className={`group text-left bg-card border border-primary/25 p-3.5 transition-all duration-200 hover:border-primary/60 flex-1 ${
+              className={`group text-left bg-card border border-primary/25 p-2.5 transition-all duration-200 hover:border-primary/60 h-[100px] flex items-start ${
                 expandedIndex === index
                   ? "border-primary/60 shadow-sm"
                   : ""
@@ -90,8 +91,8 @@ export function AiMuse({ onAddToNotes }: AiMuseProps) {
               aria-label={`AI design idea ${index + 1}`}
             >
               <p
-                className={`font-sans text-xs italic text-foreground/80 leading-relaxed ${
-                  expandedIndex === index ? "" : "line-clamp-3"
+                className={`font-sans text-[10px] italic text-foreground/80 leading-snug ${
+                  expandedIndex === index ? "" : "line-clamp-5"
                 }`}
               >
                 {idea}

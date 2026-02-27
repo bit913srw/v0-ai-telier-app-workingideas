@@ -163,6 +163,9 @@ export function WorkingIdeas() {
         </div>
       </section>
 
+      {/* Divider between AI Muse and Notes */}
+      <div className="w-full h-px bg-primary" />
+
       {/* Notes list */}
       <main className="flex-1 px-5 pb-8 pt-2">
         <div className="max-w-2xl mx-auto flex flex-col gap-3.5">

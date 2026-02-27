@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useCallback } from "react"
-import { ArrowLeft, Plus } from "lucide-react"
+import { ArrowLeft } from "lucide-react"
 import { NoteCard } from "@/components/note-card"
 import { NoteEditor } from "@/components/note-editor"
 import { NoteViewer } from "@/components/note-viewer"
@@ -138,22 +138,13 @@ export function WorkingIdeas() {
     <div className="min-h-dvh flex flex-col bg-background">
       {/* Header */}
       <header className="px-5 py-5 flex flex-col gap-3">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center">
           <button
             className="flex items-center gap-1.5 text-primary font-sans text-xs uppercase tracking-[0.2em] hover:opacity-70 transition-opacity"
             aria-label="Go back to tools"
           >
             <ArrowLeft className="w-3.5 h-3.5" strokeWidth={1.5} />
             <span>Tools</span>
-          </button>
-
-          <button
-            onClick={handleNewNote}
-            className="flex items-center gap-1 text-primary font-sans text-xs uppercase tracking-[0.2em] hover:opacity-70 transition-opacity"
-            aria-label="Add a new note"
-          >
-            <span>Add</span>
-            <Plus className="w-3.5 h-3.5" strokeWidth={1.5} />
           </button>
         </div>
 

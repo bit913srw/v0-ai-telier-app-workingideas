@@ -79,7 +79,7 @@ export function AiMuse({ onAddToNotes }: AiMuseProps) {
         }`}
         style={{ scrollbarWidth: "none", msOverflowStyle: "none", WebkitOverflowScrolling: "touch" }}
       >
-        {ideas.slice(0, 4).map((idea, index) => (
+        {ideas.slice(0, 6).map((idea, index) => (
           <div key={`${poolIndex}-${index}`} className="flex flex-col shrink-0 w-[140px]">
             <button
               onClick={() => handleCardClick(index)}

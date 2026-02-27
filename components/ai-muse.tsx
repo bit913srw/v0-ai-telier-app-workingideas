@@ -72,18 +72,17 @@ export function AiMuse({ onAddToNotes }: AiMuseProps) {
         </h2>
       </div>
 
-      {/* Ideas carousel row */}
+      {/* Ideas 2x2 grid */}
       <div
-        className={`flex gap-3 overflow-x-auto pb-2 transition-opacity duration-300 ${
+        className={`grid grid-cols-2 gap-3 transition-opacity duration-300 ${
           isRefreshing ? "opacity-0" : "opacity-100"
         }`}
-        style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
         {ideas.slice(0, 4).map((idea, index) => (
-          <div key={`${poolIndex}-${index}`} className="flex flex-col shrink-0 w-[200px] md:w-[220px]">
+          <div key={`${poolIndex}-${index}`} className="flex flex-col">
             <button
               onClick={() => handleCardClick(index)}
-              className={`group text-left bg-card border border-primary/25 p-3.5 transition-all duration-200 hover:border-primary/60 h-full ${
+              className={`group text-left bg-card border border-primary/25 p-3.5 transition-all duration-200 hover:border-primary/60 aspect-square flex items-start ${
                 expandedIndex === index
                   ? "border-primary/60 shadow-sm"
                   : ""
@@ -92,7 +91,7 @@ export function AiMuse({ onAddToNotes }: AiMuseProps) {
             >
               <p
                 className={`font-sans text-xs italic text-foreground/80 leading-relaxed ${
-                  expandedIndex === index ? "" : "line-clamp-4"
+                  expandedIndex === index ? "" : "line-clamp-6"
                 }`}
               >
                 {idea}

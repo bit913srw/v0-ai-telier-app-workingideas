@@ -72,17 +72,18 @@ export function AiMuse({ onAddToNotes }: AiMuseProps) {
         </h2>
       </div>
 
-      {/* Ideas 2x2 grid */}
+      {/* Ideas horizontal carousel */}
       <div
-        className={`grid grid-cols-2 gap-3 transition-opacity duration-300 ${
+        className={`flex gap-3 overflow-x-auto pb-2 transition-opacity duration-300 ${
           isRefreshing ? "opacity-0" : "opacity-100"
         }`}
+        style={{ scrollbarWidth: "none", msOverflowStyle: "none", WebkitOverflowScrolling: "touch" }}
       >
         {ideas.slice(0, 4).map((idea, index) => (
-          <div key={`${poolIndex}-${index}`} className="flex flex-col">
+          <div key={`${poolIndex}-${index}`} className="flex flex-col shrink-0 w-[140px]">
             <button
               onClick={() => handleCardClick(index)}
-              className={`group text-left bg-card border border-primary/25 p-3.5 transition-all duration-200 hover:border-primary/60 aspect-square flex items-start ${
+              className={`group text-left bg-card border border-primary/25 p-2.5 transition-all duration-200 hover:border-primary/60 h-[100px] flex items-start ${
                 expandedIndex === index
                   ? "border-primary/60 shadow-sm"
                   : ""
@@ -90,8 +91,8 @@ export function AiMuse({ onAddToNotes }: AiMuseProps) {
               aria-label={`AI design idea ${index + 1}`}
             >
               <p
-                className={`font-sans text-xs italic text-foreground/80 leading-relaxed ${
-                  expandedIndex === index ? "" : "line-clamp-6"
+                className={`font-sans text-[10px] italic text-foreground/80 leading-snug ${
+                  expandedIndex === index ? "" : "line-clamp-5"
                 }`}
               >
                 {idea}

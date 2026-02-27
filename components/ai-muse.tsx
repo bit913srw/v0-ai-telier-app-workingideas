@@ -63,7 +63,7 @@ export function AiMuse({ onAddToNotes }: AiMuseProps) {
   }, [])
 
   return (
-    <section className="flex flex-col gap-4">
+    <section className="flex flex-col gap-3">
       {/* Section header */}
       <div className="flex flex-col gap-2">
         <div className="h-px bg-primary/40" />

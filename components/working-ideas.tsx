@@ -157,14 +157,14 @@ export function WorkingIdeas() {
       </header>
 
       {/* AI Muse section at top */}
-      <section className="px-5 pb-4">
+      <section className="px-5 pb-2">
         <div className="max-w-3xl mx-auto">
           <AiMuse onAddToNotes={handleAddMuseIdea} />
         </div>
       </section>
 
       {/* Divider between AI Muse and Notes */}
-      <div className="w-full h-px bg-primary" />
+      <div className="w-full h-px bg-primary mt-1" />
 
       {/* Notes list */}
       <main className="flex-1 px-5 pb-8 pt-2">
